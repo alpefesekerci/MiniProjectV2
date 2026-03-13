@@ -105,10 +105,13 @@ public class ConsoleMenu {
             } catch (InputMismatchException e) {
                 System.out.println("KRİTİK HATA: Lütfen harf değil, sadece geçerli bir rakam giriniz!");
                 scanner.nextLine();
+                pressEnterToContinue();
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("HATA: Listede olmayan bir pozisyona erişmeye çalıştınız!");
+                pressEnterToContinue();
             } catch (Exception e) {
                 System.out.println("Beklenmeyen bir hata oluştu: " + e.getMessage());
+                pressEnterToContinue();
             }
         }
     }
