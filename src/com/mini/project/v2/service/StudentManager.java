@@ -1,74 +1,73 @@
 package com.mini.project.v2.service;
 
 import com.mini.project.v2.model.Student;
+import com.mini.project.v2.exception.StudentAlreadyExistsException;
+import com.mini.project.v2.exception.StudentNotFoundException;
+import com.mini.project.v2.repository.StudentRepository;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class StudentManager {
-    private final List<Student> studentList = new ArrayList<>();
 
-    public boolean addStudent(Student student) {
-        for (Student existingStudent : studentList) {
-            if (existingStudent.getId() == student.getId()) {
-                return false;
-            }
+    private final StudentRepository repository = new StudentRepository();
+
+    public void addStudent(int id, String name, String surname, double grade) {
+
+        if (repository.existsById(id)) {
+            throw new StudentAlreadyExistsException("Servis Hatası: " + id + " ID'li öğrenci zaten sisteme kayıtlı!");
         }
-        studentList.add(student);
-        return true;
+
+        Student newStudent = new Student(id, name, surname, grade);
+        repository.save(newStudent);
     }
 
-    public boolean removeStudent(int id) {
-        Iterator<Student> iterator = studentList.iterator();
-        while (iterator.hasNext()) {
-            Student student = iterator.next();
+    public void removeStudent(int id) {
+        if (!repository.existsById(id)) {
+            throw new StudentNotFoundException("Hata: Silinmek istenen " + id + " ID'li öğrenci bulunamadı.");
+        }
+
+        repository.deleteById(id);
+    }
+
+    public boolean doesStudentExist(int id) {
+        return repository.existsById(id);
+    }
+
+    public double calculateAverage() {
+        List<Student> students = repository.findAll();
+
+        if (students.isEmpty()) {
+            return 0.0;
+        }
+
+        double total = 0;
+        for (Student student : students) {
+            total += student.getGrade();
+        }
+        return total / students.size();
+    }
+
+    public boolean updateStudent(int id, String newName, String newSurname, double newGrade) {
+        if (!repository.existsById(id)) {
+            throw new StudentNotFoundException("Hata: Güncellenecek " + id + " ID'li öğrenci bulunamadı.");
+        }
+
+        for (Student student : repository.findAll()) {
             if (student.getId() == id) {
-                iterator.remove();
-                return true;
+                student.setName(newName);
+                student.setSurname(newSurname);
+                student.setGrade(newGrade);
+                break;
             }
         }
         return false;
     }
 
     public List<Student> getAllStudents() {
-        return studentList;
-    }
-
-    public boolean updateStudent(int id, String newName, String newSurname, double newGrade) {
-        for (Student student : studentList) {
-            if (student.getId() == id) {
-                student.setName(newName);
-                student.setSurname(newSurname);
-                student.setGrade(newGrade);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public double calculateAverage() {
-        if (studentList.isEmpty()) {
-            return 0.0;
-        }
-        double totalGrade = 0;
-        for (Student student : studentList) {
-            totalGrade += student.getGrade();
-        }
-        return totalGrade / studentList.size();
+        return repository.findAll();
     }
 
     public boolean isListEmpty() {
-        return studentList.isEmpty();
-    }
-
-    public boolean doesStudentExist(int id) {
-        for (Student student : studentList) {
-            if (student.getId() == id) {
-                return true;
-            }
-        }
-        return false;
+        return repository.findAll().isEmpty();
     }
 }
-

@@ -1,5 +1,7 @@
 package com.mini.project.v2.model;
 
+import com.mini.project.v2.exception.InvalidGradeException;
+
 public class Student {
     private int id;
     private String name;
@@ -48,7 +50,7 @@ public class Student {
 
     public void setGrade(double grade) {
         if (grade < 0 || grade > 100) {
-            throw new IllegalArgumentException("Hata: Not değeri 0 ile 100 arasında olmalıdır! Girilen değer: " + grade);
+            throw new InvalidGradeException("Hata: Not değeri 0 ile 100 arasında olmalıdır! Girilen değer: " + grade);
         }
         this.grade = grade;
     }

@@ -2,6 +2,7 @@ package com.mini.project.v2.ui;
 
 import com.mini.project.v2.model.Student;
 import com.mini.project.v2.service.StudentManager;
+import com.mini.project.v2.exception.InvalidGradeException;
 
 import java.util.List;
 import java.util.Scanner;
@@ -54,16 +55,12 @@ public class ConsoleMenu {
                         scanner.nextLine();
 
                         try {
-                            Student newStudent = new Student(id, name, surname, grade);
-
-                            boolean isAdded = studentManager.addStudent(newStudent);
-                            if (isAdded) {
-                                System.out.println("Başarılı: Sisteme eklendi -> " + name);
-                            } else {
-                                System.out.println("Hata: Bu ID (" + id + ") ile kayıtlı başka bir öğrenci zaten var!");
-                            }
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Doğrulama Hatası: " + e.getMessage());
+                            studentManager.addStudent(id, name, surname, grade);
+                            System.out.println("Öğrenci başarıyla eklendi!");
+                        } catch (IllegalArgumentException | InvalidGradeException e) {
+                            System.out.println("❌ " + e.getMessage());
+                        } catch (Exception e) {
+                            System.out.println("❌ Beklenmeyen bir hata oluştu: " + e.getMessage());
                         }
 
                         pressEnterToContinue();
@@ -87,11 +84,11 @@ public class ConsoleMenu {
                             break;
                         }
 
-                        boolean isRemoved = studentManager.removeStudent(removeId);
-                        if (isRemoved) {
-                            System.out.println("Başarılı: Öğrenci sistemden silindi.");
-                        } else {
-                            System.out.println("Hata: " + removeId + " ID'li öğrenci bulunamadı. İşlem iptal edildi.");
+                        try {
+                            studentManager.removeStudent(removeId);
+                            System.out.println("Öğrenci başarıyla silindi!");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("❌ " + e.getMessage());
                         }
 
                         pressEnterToContinue();
