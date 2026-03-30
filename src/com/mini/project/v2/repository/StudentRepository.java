@@ -1,7 +1,6 @@
 package com.mini.project.v2.repository;
 
 import com.mini.project.v2.model.Student;
-import com.mini.project.v2.exception.StudentAlreadyExistsException;
 
 import java.util.List;
 import java.util.Iterator;
@@ -20,9 +19,6 @@ public class StudentRepository {
     }
 
     public void save(Student student) {
-        if (existsById(student.getId())) {
-            throw new StudentAlreadyExistsException("Veritabanı Hatası: " + student.getId() + " ID'li öğrenci zaten mevcut!");
-        }
         studentList.add(student);
     }
 

@@ -1,5 +1,6 @@
 package com.mini.project.v2.ui;
 
+import com.mini.project.v2.exception.StudentNotFoundException;
 import com.mini.project.v2.model.Student;
 import com.mini.project.v2.service.StudentManager;
 import com.mini.project.v2.exception.InvalidGradeException;
@@ -67,13 +68,7 @@ public class ConsoleMenu {
                         break;
 
                     case 2:
-                        if (studentManager.isListEmpty()) {
-                            System.out.println("Uyarı: Sistemde silinecek öğrenci bulunmuyor!");
-                            pressEnterToContinue();
-                            break;
-                        }
-
-                        displayStudents();
+                       displayStudents();
                         System.out.println("Silmek İstediğiniz Öğrencinin ID'si (İptal için 0 giriniz): ");
                         int removeId = scanner.nextInt();
                         scanner.nextLine();
@@ -87,7 +82,7 @@ public class ConsoleMenu {
                         try {
                             studentManager.removeStudent(removeId);
                             System.out.println("Öğrenci başarıyla silindi!");
-                        } catch (IllegalArgumentException e) {
+                        } catch (StudentNotFoundException e) {
                             System.out.println("❌ " + e.getMessage());
                         }
 
@@ -95,12 +90,6 @@ public class ConsoleMenu {
                         break;
 
                     case 3:
-                        if (studentManager.isListEmpty()) {
-                            System.out.println("Uyarı: Sistemde güncellenecek öğrenci bulunmuyor!");
-                            pressEnterToContinue();
-                            break;
-                        }
-
                         displayStudents();
                         System.out.println("Güncellenecek Öğrencinin ID'si (İptal için 0 giriniz): ");
                         int updateId = scanner.nextInt();
@@ -108,12 +97,6 @@ public class ConsoleMenu {
 
                         if (updateId == 0) {
                             System.out.println("İşlem iptal edildi. Ana menüye dönülüyor...");
-                            pressEnterToContinue();
-                            break;
-                        }
-
-                        if (!studentManager.doesStudentExist(updateId)) {
-                            System.out.println("Hata: " + updateId + " ID'li öğrenci bulunamadı! İşlem iptal edildi.");
                             pressEnterToContinue();
                             break;
                         }
@@ -127,12 +110,10 @@ public class ConsoleMenu {
                         scanner.nextLine();
 
                         try {
-                            boolean isUpdated = studentManager.updateStudent(updateId, newName, newSurname, newGrade);
-                            if (isUpdated) {
-                                System.out.println("Başarılı: Öğrenci bilgileri güncellendi.");
-                            }
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Doğrulama Hatası: " + e.getMessage());
+                            Student updatedStudent = studentManager.updateStudent(updateId, newName, newSurname, newGrade);
+                            System.out.println("Başarılı: " + updatedStudent.getName() + "isimli öğrencinin bilgileri güncellendi.");
+                        }catch (StudentNotFoundException | InvalidGradeException e) {
+                            System.out.println("❌ İşlem Başarısız: " + e.getMessage());
                         }
 
                         pressEnterToContinue();
@@ -144,11 +125,11 @@ public class ConsoleMenu {
                         break;
 
                     case 5:
-                        if (studentManager.isListEmpty()) {
-                            System.out.println("Uyarı: Listede öğrenci olmadığı için ortalama hesaplanamaz.");
-                        } else {
+                        try {
                             double avg = studentManager.calculateAverage();
-                            System.out.println("Sınıfın Not Ortalaması: " + avg);
+                            System.out.println("Sınıfın not ortalaması: " + avg);
+                        } catch (IllegalStateException e) {
+                            System.out.println("Uyarı: " + e.getMessage());
                         }
                         pressEnterToContinue();
                         break;
