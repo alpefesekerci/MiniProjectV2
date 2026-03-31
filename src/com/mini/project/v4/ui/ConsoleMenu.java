@@ -4,6 +4,7 @@ import com.mini.project.v4.exception.StudentNotFoundException;
 import com.mini.project.v4.model.Student;
 import com.mini.project.v4.service.StudentManager;
 import com.mini.project.v4.exception.InvalidGradeException;
+import com.mini.project.v4.exception.StudentAlreadyExistsException;
 
 import java.util.List;
 import java.util.Scanner;
@@ -66,7 +67,7 @@ public class ConsoleMenu {
                         try {
                             studentManager.addStudent(id, name, surname, grade);
                             System.out.println("Öğrenci başarıyla eklendi!");
-                        } catch (IllegalArgumentException | InvalidGradeException e) {
+                        } catch (StudentAlreadyExistsException | IllegalArgumentException | InvalidGradeException e) {
                             System.out.println("❌ " + e.getMessage());
                         } catch (Exception e) {
                             System.out.println("❌ Beklenmeyen bir hata oluştu: " + e.getMessage());
@@ -158,9 +159,6 @@ public class ConsoleMenu {
             } catch (InputMismatchException e) {
                 System.out.println("KRİTİK HATA: Lütfen harf değil, sadece geçerli bir rakam giriniz!");
                 scanner.nextLine();
-                pressEnterToContinue();
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("HATA: Listede olmayan bir pozisyona erişmeye çalıştınız!");
                 pressEnterToContinue();
             } catch (Exception e) {
                 System.out.println("Beklenmeyen bir hata oluştu: " + e.getMessage());
