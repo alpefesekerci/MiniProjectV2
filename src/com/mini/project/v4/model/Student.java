@@ -1,6 +1,6 @@
-package com.mini.project.v2.model;
+package com.mini.project.v4.model;
 
-import com.mini.project.v2.exception.InvalidGradeException;
+import com.mini.project.v4.exception.InvalidGradeException;
 
 public class Student {
     private int id;

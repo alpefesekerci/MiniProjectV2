@@ -10,4 +10,4 @@ Bu proje, bir Java staj görevi kapsamında geliştirilmiş, katmanlı mimariye 
 
 ## Nasıl Çalıştırılır?
 1. Projeyi bilgisayarınıza klonlayın.
-2. `com.mini.project.v2.Main` sınıfını bir IDE (IntelliJ, Eclipse vb.) ile çalıştırın.
+2. `com.mini.project.v4.Main` sınıfını bir IDE (IntelliJ, Eclipse vb.) ile çalıştırın.

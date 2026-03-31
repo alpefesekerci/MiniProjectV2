@@ -1,9 +1,9 @@
-package com.mini.project.v2.service;
+package com.mini.project.v4.service;
 
-import com.mini.project.v2.model.Student;
-import com.mini.project.v2.exception.StudentAlreadyExistsException;
-import com.mini.project.v2.exception.StudentNotFoundException;
-import com.mini.project.v2.repository.StudentRepository;
+import com.mini.project.v4.model.Student;
+import com.mini.project.v4.exception.StudentAlreadyExistsException;
+import com.mini.project.v4.exception.StudentNotFoundException;
+import com.mini.project.v4.repository.StudentRepository;
 import java.util.List;
 
 public class StudentManager {

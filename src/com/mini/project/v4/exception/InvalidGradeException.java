@@ -1,4 +1,4 @@
-package com.mini.project.v2.exception;
+package com.mini.project.v4.exception;
 
 public class InvalidGradeException extends RuntimeException {
     public InvalidGradeException(String message) {

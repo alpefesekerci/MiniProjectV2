@@ -1,4 +1,4 @@
-package com.mini.project.v2.exception;
+package com.mini.project.v4.exception;
 
 public class StudentAlreadyExistsException extends RuntimeException {
     public StudentAlreadyExistsException(String message) {

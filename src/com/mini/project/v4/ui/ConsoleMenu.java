@@ -1,9 +1,9 @@
-package com.mini.project.v2.ui;
+package com.mini.project.v4.ui;
 
-import com.mini.project.v2.exception.StudentNotFoundException;
-import com.mini.project.v2.model.Student;
-import com.mini.project.v2.service.StudentManager;
-import com.mini.project.v2.exception.InvalidGradeException;
+import com.mini.project.v4.exception.StudentNotFoundException;
+import com.mini.project.v4.model.Student;
+import com.mini.project.v4.service.StudentManager;
+import com.mini.project.v4.exception.InvalidGradeException;
 
 import java.util.List;
 import java.util.Scanner;
