@@ -11,9 +11,17 @@ import java.util.InputMismatchException;
 
 public class ConsoleMenu {
     private final Scanner scanner = new Scanner(System.in);
-    private final StudentManager studentManager = new StudentManager();
+
+    private final StudentManager studentManager;
+
+    public ConsoleMenu(StudentManager studentManager) {
+        this.studentManager = studentManager;
+    }
 
     public void startMenu() {
+        System.out.println("Sistem başlatılıyor, veriler dosyadan yükleniyor...");
+        studentManager.startApplication();
+
         boolean running = true;
 
         while (running) {
@@ -22,7 +30,7 @@ public class ConsoleMenu {
             }
 
             System.out.println("\n╔════════════════════════════════════════╗");
-            System.out.println("║       ÖĞRENCİ YÖNETİM SİSTEMİ v2       ║");
+            System.out.println("║       ÖĞRENCİ YÖNETİM SİSTEMİ v4       ║");
             System.out.println("╠════════════════════════════════════════╣");
             System.out.println("║                                        ║");
             System.out.println("║  [1] Öğrenci Ekle                      ║");
@@ -111,7 +119,7 @@ public class ConsoleMenu {
 
                         try {
                             Student updatedStudent = studentManager.updateStudent(updateId, newName, newSurname, newGrade);
-                            System.out.println("Başarılı: " + updatedStudent.getName() + "isimli öğrencinin bilgileri güncellendi.");
+                            System.out.println("Başarılı: " + updatedStudent.getName() + " isimli öğrencinin bilgileri güncellendi.");
                         }catch (StudentNotFoundException | InvalidGradeException e) {
                             System.out.println("❌ İşlem Başarısız: " + e.getMessage());
                         }
@@ -135,7 +143,10 @@ public class ConsoleMenu {
                         break;
 
                     case 0:
-                        System.out.println("Sistemden Çıkılıyor...");
+                        System.out.println("Sistemden Çıkılıyor, veriler dosyaya kaydediliyor...");
+
+                        studentManager.stopApplication();
+
                         running = false;
                         break;
 
